@@ -2,6 +2,11 @@ const { query } = require('express');
 const express = require('express');
 const app = express();
 
+ // parse incoming string or array data
+ app.use(express.urlencoded({extendd: true }));
+ // parse incoming JSON data
+ app.use(express.json());
+
 const PORT = process.env.PORT || 3001;
 const { animals } = require('./data/animals');
 
@@ -50,6 +55,14 @@ if (query.diet) {
    return result;
   }
 
+  function createNewAnimal(body, animalsArray) {
+    console.log(body);
+    // our function's main code will go here!
+
+    // return finished code to post route for response
+    return body;
+  }
+
 app.get('/api/animals', (req, res) => {
     let results = animals;
     if (req.query) {
@@ -66,6 +79,16 @@ app.get('/api/animals', (req, res) => {
           res.send(404);
       }
   });
+
+  app.post('/api/animals', (req, res) => {
+    // set id based on what the next index of the array will be
+    req.body.id = animals.length.toString();
+    
+    res.json(req.body);
+  });
+
+  
+
 
   app.listen(PORT, () => {
     console.log(`API server now on port ${PORT}!`);
