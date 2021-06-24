@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+
 const { query } = require('express');
 const express = require('express');
 const app = express();
@@ -56,11 +59,11 @@ if (query.diet) {
   }
 
   function createNewAnimal(body, animalsArray) {
-    console.log(body);
-    // our function's main code will go here!
+    const animal = body;
+    animalsArray.push(animal);
 
     // return finished code to post route for response
-    return body;
+    return animal;
   }
 
 app.get('/api/animals', (req, res) => {
@@ -83,7 +86,10 @@ app.get('/api/animals', (req, res) => {
   app.post('/api/animals', (req, res) => {
     // set id based on what the next index of the array will be
     req.body.id = animals.length.toString();
-    
+
+    // add animal to json file and animals array in this function
+    const animal = createNewAnimal(req.body, animals);
+
     res.json(req.body);
   });
 
