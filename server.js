@@ -10,6 +10,9 @@ const app = express();
  // parse incoming JSON data
  app.use(express.json());
 
+ // make files readily available 
+ app.use(express.static('public'));
+
 const PORT = process.env.PORT || 3001;
 const { animals } = require('./data/animals');
 
@@ -114,6 +117,10 @@ app.get('/api/animals', (req, res) => {
   }
 });
 
+// getting the html file
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
   
 
 
